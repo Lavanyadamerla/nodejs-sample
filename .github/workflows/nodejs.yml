@@ -55,4 +55,4 @@ jobs:
          run: echo "Received:${{ needs.build.outputs.greet-message }}"
 
        - name: Show deploy region
-         run: echo "Deploying to:${{ vars.DEPLOY_REGION }}
+         run: echo "Deploying to:${{ vars.DEPLOY_REGION }}"
