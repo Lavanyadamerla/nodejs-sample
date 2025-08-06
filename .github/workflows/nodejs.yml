@@ -33,6 +33,9 @@ jobs:
      - name: Use repository variable
        run: echo "Global ENV is $GLOBAL_ENV"
 
+     - name: Use created repository variable
+       run: echo "Deploy region is ${{ vars.DEPLOY_REGION }}"
+
      - name: Use secret
        run: echo "Using API Key:${{ secrets.API_KEY }}"
 
@@ -50,3 +53,6 @@ jobs:
      steps:
        - name: Use output from build
          run: echo "Received:${{ needs.build.outputs.greet-message }}"
+
+       - name: Show deploy region
+         run: echo "Deploying to:${{ vars.DEPLOY_REGION }}
