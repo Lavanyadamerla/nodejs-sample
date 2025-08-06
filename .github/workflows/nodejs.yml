@@ -1,0 +1,49 @@
+name: Node.js with contexts
+
+on:
+ push:
+   branches: [main]
+
+env:
+  GLOBAL_ENV: production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v4
+
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v4
+       with:
+         node-version: ${{ matrix.node-version }}
+
+     - name: Install dependencies
+       run: npm install
+
+     - name: Use repository variable
+       run: echo "Global ENV is $GLOBAL_ENV"
+
+     - name: Use secret
+       run: echo "Using API Key:${{ secrets.API_KEY }}"
+
+     - name: Run app
+       run: npm start
+
+     - name: Set output value
+       id: set-message
+       run: echo "message=Hello from build job" >> $GITHUB_OUTPUT
+
+  deploy:
+     needs: build
+     runs-on: ubuntu-latest
+
+     steps:
+       - name: Use output from build
+         run: echo "Received:${{ needs.build.outputs.set-message }}"
