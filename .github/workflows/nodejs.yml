@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      greet-message: ${{ steps.set-message.outputs.message }}
+
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -46,4 +49,4 @@ jobs:
 
      steps:
        - name: Use output from build
-         run: echo "Received:${{ needs.build.outputs.set-message }}"
+         run: echo "Received:${{ needs.build.outputs.greet-message }}"
